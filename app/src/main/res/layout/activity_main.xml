@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/lightSensorValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Sensor Value: " />
+
+    <TextView
+        android:id="@+id/proximitySensorValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proximity Sensor Value: " />
+
+    <TextView
+        android:id="@+id/accelerometerSensorValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accelerometer Sensor Value: " />
+
+    <TextView
+        android:id="@+id/gyroscopeSensorValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gyroscope Sensor Value: " />
+
+    <Button
+        android:id="@+id/lightSensorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Sensor Chart" />
+
+    <Button
+        android:id="@+id/proximitySensorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proximity Sensor Chart" />
+
+    <Button
+        android:id="@+id/accelerometerSensorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accelerometer Sensor Chart" />
+
+    <Button
+        android:id="@+id/gyroscopeSensorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gyroscope Sensor Chart" />
+
+</LinearLayout>
