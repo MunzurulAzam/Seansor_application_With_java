@@ -11,12 +11,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+
+import com.example.sensor_app.DatabaseHelper;
+import com.example.sensor_app.LightSensorChartActivity;
+import com.example.sensor_app.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
@@ -31,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private static final String CHANNEL_ID = "sensor_notifications";
     private static final int NOTIFICATION_ID = 1;
+
+    private Handler handler;
+    private static final long INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +73,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 startActivity(new Intent(MainActivity.this, LightSensorChartActivity.class));
             }
         });
+
+        // Create instance of DatabaseHelper
+        dbHelper = new DatabaseHelper(this);
+
+        // Set up handler for periodic database operations
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Perform database operations here
+                recordSensorData();
+                handler.postDelayed(this, INTERVAL);
+            }
+        }, INTERVAL);
     }
 
     @Override
@@ -90,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (sensor.getType() == Sensor.TYPE_LIGHT) {
             lightSensorValue.setText("Light Sensor Value: " + value);
+            showNotification("Light Sensor Value: " + value);
         } else if (sensor.getType() == Sensor.TYPE_PROXIMITY) {
             proximitySensorValue.setText("Proximity Sensor Value: " + value);
         } else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -97,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             gyroscopeSensorValue.setText("Gyroscope Sensor Value: " + value);
         }
-
-        // Record sensor values in SQLite DB every 5 minutes
-        // Implement database code here
     }
 
     @Override
@@ -129,5 +153,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private void recordSensorData() {
+        // Retrieve sensor values from UI or other sources
+        float lightValue = Float.parseFloat(lightSensorValue.getText().toString().substring(19));
+        float proximityValue = Float.parseFloat(proximitySensorValue.getText().toString().substring(24));
+        float accelerometerValue = Float.parseFloat(accelerometerSensorValue.getText().toString().substring(29));
+        float gyroscopeValue = Float.parseFloat(gyroscopeSensorValue.getText().toString().substring(25));
+
+        // Create SensorData objects with timestamp and sensor values
+        long timestamp = System.currentTimeMillis();
+        DatabaseHelper.SensorData lightSensorData = new DatabaseHelper.SensorData(timestamp, lightValue);
+        DatabaseHelper.SensorData proximitySensorData = new DatabaseHelper.SensorData(timestamp, proximityValue);
+        DatabaseHelper.SensorData accelerometerSensorData = new DatabaseHelper.SensorData(timestamp, accelerometerValue);
+        DatabaseHelper.SensorData gyroscopeSensorData = new DatabaseHelper.SensorData(timestamp, gyroscopeValue);
+
+        // Insert sensor values into the database
+        dbHelper.insertLightSensorValue(lightSensorData);
+        dbHelper.insertProximitySensorValue(proximitySensorData);
+        dbHelper.insertAccelerometerSensorValue(accelerometerSensorData);
+        dbHelper.insertGyroscopeSensorValue(gyroscopeSensorData);
     }
 }

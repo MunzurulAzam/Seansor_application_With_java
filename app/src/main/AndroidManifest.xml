@@ -7,6 +7,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature android:name="android.hardware.sensor.light" />
+    <uses-feature android:name="android.hardware.sensor.proximity" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" />
+    <uses-feature android:name="android.hardware.sensor.gyroscope" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,9 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sensor_app"
         tools:targetApi="31">
+
         <activity
-            android:name=".activity_light_sensor_chart"
-            android:exported="false" />
+            android:name=".LightSensorChartActivity"
+            android:label="Light Sensor Chart">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:enabled="true"

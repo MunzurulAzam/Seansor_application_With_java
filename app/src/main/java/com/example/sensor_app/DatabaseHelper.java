@@ -111,9 +111,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sensorDataList;
     }
 
+    public void insertProximitySensorValue(SensorData proximitySensorData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TIMESTAMP, proximitySensorData.getTimestamp());
+        values.put(COLUMN_VALUE, proximitySensorData.getValue());
+        db.insert(TABLE_PROXIMITY_SENSOR, null, values);
+        db.close();
+    }
+
+    public void insertAccelerometerSensorValue(SensorData accelerometerSensorData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TIMESTAMP, accelerometerSensorData.getTimestamp());
+        values.put(COLUMN_VALUE, accelerometerSensorData.getValue());
+        db.insert(TABLE_ACCELEROMETER_SENSOR, null, values);
+        db.close();
+    }
+
+    public void insertGyroscopeSensorValue(SensorData gyroscopeSensorData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TIMESTAMP, gyroscopeSensorData.getTimestamp());
+        values.put(COLUMN_VALUE, gyroscopeSensorData.getValue());
+        db.insert(TABLE_GYROSCOPE_SENSOR, null, values);
+        db.close();
+    }
+
+
+    public void insertLightSensorValue(SensorData lightSensorData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TIMESTAMP, lightSensorData.getTimestamp());
+        values.put(COLUMN_VALUE, lightSensorData.getValue());
+        db.insert(TABLE_LIGHT_SENSOR, null, values);
+        db.close();
+    }
     // Add methods for other sensor tables (Proximity, Accelerometer, Gyroscope) similarly...
 
-    public class SensorData {
+    public static class SensorData {
         private long timestamp;
         private float value;
 

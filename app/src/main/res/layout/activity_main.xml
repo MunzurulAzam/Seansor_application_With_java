@@ -1,54 +1,90 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/lightSensorValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp"
         android:text="Light Sensor Value: " />
 
     <TextView
         android:id="@+id/proximitySensorValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Proximity Sensor Value: " />
+        android:text="Proximity Sensor Value: "
+        android:layout_marginStart="11dp"
+        android:layout_below="@id/lightSensorValue" />
 
     <TextView
         android:id="@+id/accelerometerSensorValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accelerometer Sensor Value: " />
+        android:layout_marginStart="11dp"
+        android:text="Accelerometer Sensor Value: "
+        android:layout_below="@id/proximitySensorValue" />
 
     <TextView
         android:id="@+id/gyroscopeSensorValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gyroscope Sensor Value: " />
+        android:layout_marginStart="11dp"
+        android:text="Gyroscope Sensor Value: "
+        android:layout_below="@id/accelerometerSensorValue" />
 
     <Button
         android:id="@+id/lightSensorButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="72dp"
+        android:layout_below="@id/gyroscopeSensorValue"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/button_background"
         android:text="Light Sensor Chart" />
 
     <Button
         android:id="@+id/proximitySensorButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="72dp"
+        android:layout_below="@id/lightSensorButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/button_background"
         android:text="Proximity Sensor Chart" />
 
     <Button
         android:id="@+id/accelerometerSensorButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="72dp"
+        android:layout_below="@id/proximitySensorButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/button_background"
         android:text="Accelerometer Sensor Chart" />
 
     <Button
         android:id="@+id/gyroscopeSensorButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="72dp"
+        android:layout_below="@id/accelerometerSensorButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/button_background"
         android:text="Gyroscope Sensor Chart" />
 
-</LinearLayout>
+</RelativeLayout>
