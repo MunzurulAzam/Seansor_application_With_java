@@ -74,6 +74,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+
+        // Set click listener for the "Proximity Sensor Chart" button
+        Button proximitySensorChartButton = findViewById(R.id.proximitySensorButton);
+        proximitySensorChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ProximitySensorChartActivity.class));
+            }
+        });
+
+
+        // Set click listener for the "Accelerometer Sensor Chart" button
+        Button accelerometerSensorChartButton = findViewById(R.id.accelerometerSensorButton);
+        accelerometerSensorChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AccelerometerSensorChartActivity.class));
+            }
+        });
+
+
+        // Set click listener for the "Gyroscope Sensor Chart" button
+        Button gyroscopeSensorChartButton = findViewById(R.id.gyroscopeSensorButton);
+        gyroscopeSensorChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GyroscopeSensorChartActivity.class));
+            }
+        });
+
         // Create instance of DatabaseHelper
         dbHelper = new DatabaseHelper(this);
 

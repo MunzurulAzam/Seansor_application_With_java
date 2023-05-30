@@ -15,28 +15,29 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class LightSensorChartActivity extends AppCompatActivity {
+public class AccelerometerSensorChartActivity extends AppCompatActivity {
     private LineChart chart;
     private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_light_sensor_chart);
+        setContentView(R.layout.activity_accelerometer_sensor_chart);
 
         chart = findViewById(R.id.chart);
 
         // Set chart title
         TextView chartTitle = findViewById(R.id.chartTitle);
-        chartTitle.setText("Light Sensor Time Series Chart");
+        chartTitle.setText("Accelerometer Sensor Time Series Chart");
 
         // Retrieve data from SQLite database
         dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT timestamp, value FROM light_sensor", null);
+        Cursor cursor = db.rawQuery("SELECT timestamp, value FROM accelerometer_sensor", null);
 
         List<Entry> entries = new ArrayList<>();
 
@@ -53,7 +54,7 @@ public class LightSensorChartActivity extends AppCompatActivity {
         db.close();
 
         // Create a dataset from the entries
-        LineDataSet dataSet = new LineDataSet(entries, "Light Sensor Values");
+        LineDataSet dataSet = new LineDataSet(entries, "Accelerometer Sensor Values");
 
         // Customize the dataset's appearance
         dataSet.setColor(Color.BLUE);
@@ -71,7 +72,7 @@ public class LightSensorChartActivity extends AppCompatActivity {
 
         // Set chart description
         Description description = new Description();
-        description.setText("Time vs Light Sensor Values");
+        description.setText("Time vs Accelerometer Sensor Values");
         chart.setDescription(description);
 
         // Refresh the chart

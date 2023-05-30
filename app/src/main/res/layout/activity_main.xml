@@ -3,88 +3,118 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/lightSensorValue"
+    <LinearLayout
+        android:id="@+id/cardContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="11dp"
-        android:text="Light Sensor Value: " />
-
-    <TextView
-        android:id="@+id/proximitySensorValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Proximity Sensor Value: "
-        android:layout_marginStart="11dp"
-        android:layout_below="@id/lightSensorValue" />
-
-    <TextView
-        android:id="@+id/accelerometerSensorValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:text="Accelerometer Sensor Value: "
-        android:layout_below="@id/proximitySensorValue" />
-
-    <TextView
-        android:id="@+id/gyroscopeSensorValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:text="Gyroscope Sensor Value: "
-        android:layout_below="@id/accelerometerSensorValue" />
-
-    <Button
-        android:id="@+id/lightSensorButton"
-        android:layout_width="390dp"
-        android:layout_height="72dp"
-        android:layout_below="@id/gyroscopeSensorValue"
+        android:layout_height="561dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="11dp"
-        android:background="@drawable/button_background"
-        android:text="Light Sensor Chart" />
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="7dp"
+        android:orientation="vertical"
+        android:background="@color/white">
 
-    <Button
-        android:id="@+id/proximitySensorButton"
-        android:layout_width="390dp"
-        android:layout_height="72dp"
-        android:layout_below="@id/lightSensorButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="11dp"
-        android:background="@drawable/button_background"
-        android:text="Proximity Sensor Chart" />
+        <Button
+            android:id="@+id/lightSensorButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/button_background"
+            android:hapticFeedbackEnabled="true"
+            android:text="Light Sensor Chart"
+            android:textColor="@color/black"/>
 
-    <Button
-        android:id="@+id/accelerometerSensorButton"
-        android:layout_width="390dp"
-        android:layout_height="72dp"
-        android:layout_below="@id/proximitySensorButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="11dp"
-        android:background="@drawable/button_background"
-        android:text="Accelerometer Sensor Chart" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="11dp"
+            android:radius="24dp">
 
-    <Button
-        android:id="@+id/gyroscopeSensorButton"
-        android:layout_width="390dp"
-        android:layout_height="72dp"
-        android:layout_below="@id/accelerometerSensorButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="11dp"
-        android:background="@drawable/button_background"
-        android:text="Gyroscope Sensor Chart" />
+            <TextView
+                android:id="@+id/lightSensorValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Light Sensor Value: " />
 
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/proximitySensorButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background"
+            android:text="Proximity Sensor Chart" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="11dp"
+            android:radius="24dp">
+
+            <TextView
+                android:id="@+id/proximitySensorValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Proximity Sensor Value: " />
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/accelerometerSensorButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background"
+            android:text="Accelerometer Sensor Chart" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="11dp"
+            android:radius="24dp">
+
+            <TextView
+                android:id="@+id/accelerometerSensorValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Accelerometer Sensor Value: " />
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/gyroscopeSensorButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background"
+            android:text="Gyroscope Sensor Chart" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="11dp"
+            android:radius="24dp">
+
+            <TextView
+                android:id="@+id/gyroscopeSensorValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:text="Gyroscope Sensor Value: " />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 </RelativeLayout>
