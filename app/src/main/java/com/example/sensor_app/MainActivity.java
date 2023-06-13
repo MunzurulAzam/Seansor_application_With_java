@@ -40,13 +40,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final int NOTIFICATION_ID = 1;
 
     private Handler handler;
-    private static final long INTERVAL = 5 * 60 * 1000; // 5 minutes
+    private static final long INTERVAL = 5000; // 5 sec
 
     private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent serviceIntent = new Intent(this, SensorService.class);
+        startService(serviceIntent);
+
         setContentView(R.layout.activity_main);
 
         // Initialize sensor manager and sensors
@@ -139,6 +142,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
+    protected void onDestroy() {
+        Intent serviceIntent = new Intent(this, SensorService.class);
+        stopService(serviceIntent);
+
+        super.onDestroy();
+        stopService(serviceIntent);
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
         // Update UI based on sensor values
         Sensor sensor = event.sensor;
@@ -146,26 +158,40 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (sensor.getType() == Sensor.TYPE_LIGHT) {
             lightSensorValue.setText("Light Sensor Value: " + value);
-            showNotification("Light Sensor Value: " + value);
         } else if (sensor.getType() == Sensor.TYPE_PROXIMITY) {
             proximitySensorValue.setText("Proximity Sensor Value: " + value);
-        } else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        }
+        else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             accelerometerSensorValue.setText("Accelerometer Sensor Value: " + value);
-        } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+        }
+        else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             gyroscopeSensorValue.setText("Gyroscope Sensor Value: " + value);
         }
+
+        String lightValue = lightSensorValue.getText().toString().substring(19);
+        String proximityValue = proximitySensorValue.getText().toString().substring(24);
+        String accelerometerValue = accelerometerSensorValue.getText().toString().length() >= 29
+                ? accelerometerSensorValue.getText().toString().substring(29)
+                : "N/A";
+        String gyroscopeValue = gyroscopeSensorValue.getText().toString().length() >= 25
+                ? gyroscopeSensorValue.getText().toString().substring(25)
+                : "N/A";
+
+        String[] sensorValues = { lightValue, proximityValue, accelerometerValue, gyroscopeValue };
+
+        showNotification(sensorValues);
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do nothing
+
     }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Sensor Notifications";
             String description = "Shows sensor values in the background";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
 
@@ -174,15 +200,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    private void showNotification(String contentText) {
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Sensor Values")
-                .setContentText(contentText)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .build();
-
+    private void showNotification(String[] sensorValues) {
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.notify(NOTIFICATION_ID, notification);
+
+        for (int i = 0; i < sensorValues.length; i++) {
+            String sensorName = "";
+            String contentText = "";
+
+            switch (i) {
+                case 0:
+                    sensorName = "Light Sensor";
+                    contentText = "Light Sensor Value: " + sensorValues[i];
+                    break;
+                case 1:
+                    sensorName = "Proximity Sensor";
+                    contentText = "Proximity Sensor Value: " + sensorValues[i];
+                    break;
+                case 2:
+                    sensorName = "Accelerometer Sensor";
+                    contentText = "Accelerometer Sensor Value: " + sensorValues[i];
+                    break;
+                case 3:
+                    sensorName = "Gyroscope Sensor";
+                    contentText = "Gyroscope Sensor Value: " + sensorValues[i];
+                    break;
+            }
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle(sensorName)
+                    .setContentText(contentText)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .build();
+
+            notificationManager.notify(NOTIFICATION_ID + i, notification);
+
+        }
     }
 
     private void recordSensorData() {

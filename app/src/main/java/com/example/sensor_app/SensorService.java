@@ -32,7 +32,7 @@ public class SensorService extends Service implements SensorEventListener {
 
     private Handler handler;
     private Runnable runnable;
-    private static final long INTERVAL = 5 * 60 * 1000; // 5 minutes
+    private static final long INTERVAL = 5000; // 5 sec
 
     private DatabaseHelper dbHelper;
 
@@ -106,7 +106,7 @@ public class SensorService extends Service implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do nothing
+
     }
 
     private void readSensorValues() {
@@ -129,7 +129,7 @@ public class SensorService extends Service implements SensorEventListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Sensor Service Notifications";
             String description = "Shows sensor values in the background";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
 
@@ -147,6 +147,7 @@ public class SensorService extends Service implements SensorEventListener {
 
         startForeground(NOTIFICATION_ID, notification);
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
