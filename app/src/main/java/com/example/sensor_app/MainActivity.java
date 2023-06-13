@@ -258,3 +258,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dbHelper.insertGyroscopeSensorValue(gyroscopeSensorData);
     }
 }
+//...
