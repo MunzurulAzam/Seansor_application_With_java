@@ -76,40 +76,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<SensorData> getAllLightSensorValues() {
-        List<SensorData> sensorDataList = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_LIGHT_SENSOR + " ORDER BY " + COLUMN_TIMESTAMP + " DESC";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                long timestamp;
-                float value;
-
-                int timestampIndex = cursor.getColumnIndex(COLUMN_TIMESTAMP);
-                if (timestampIndex != -1) {
-                    timestamp = cursor.getLong(timestampIndex);
-                } else {
-                    // Column does not exist
-                    continue;
-                }
-
-                int valueIndex = cursor.getColumnIndex(COLUMN_VALUE);
-                if (valueIndex != -1) {
-                    value = cursor.getFloat(valueIndex);
-                } else {
-                    // Column does not exist
-                    continue;
-                }
-
-                SensorData sensorData = new SensorData(timestamp, value);
-                sensorDataList.add(sensorData);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return sensorDataList;
-    }
+//    public List<SensorData> getAllLightSensorValues() {
+//        List<SensorData> sensorDataList = new ArrayList<>();
+//        String selectQuery = "SELECT * FROM " + TABLE_LIGHT_SENSOR + " ORDER BY " + COLUMN_TIMESTAMP + " DESC";
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//        if (cursor.moveToFirst()) {
+//            do {
+//                long timestamp;
+//                float value;
+//
+//                int timestampIndex = cursor.getColumnIndex(COLUMN_TIMESTAMP);
+//                if (timestampIndex != -1) {
+//                    timestamp = cursor.getLong(timestampIndex);
+//                } else {
+//                    // Column does not exist
+//                    continue;
+//                }
+//
+//                int valueIndex = cursor.getColumnIndex(COLUMN_VALUE);
+//                if (valueIndex != -1) {
+//                    value = cursor.getFloat(valueIndex);
+//                } else {
+//                    // Column does not exist
+//                    continue;
+//                }
+//
+//                SensorData sensorData = new SensorData(timestamp, value);
+//                sensorDataList.add(sensorData);
+//            } while (cursor.moveToNext());
+//        }
+//        cursor.close();
+//        db.close();
+//        return sensorDataList;
+//    }
 
     public void insertProximitySensorValue(SensorData proximitySensorData) {
         SQLiteDatabase db = this.getWritableDatabase();

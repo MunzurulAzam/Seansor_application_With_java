@@ -160,24 +160,56 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             lightSensorValue.setText("Light Sensor Value: " + value);
         } else if (sensor.getType() == Sensor.TYPE_PROXIMITY) {
             proximitySensorValue.setText("Proximity Sensor Value: " + value);
-        }
-        else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        } else if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             accelerometerSensorValue.setText("Accelerometer Sensor Value: " + value);
-        }
-        else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+        } else if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             gyroscopeSensorValue.setText("Gyroscope Sensor Value: " + value);
         }
 
-        String lightValue = lightSensorValue.getText().toString().substring(19);
-        String proximityValue = proximitySensorValue.getText().toString().substring(24);
-        String accelerometerValue = accelerometerSensorValue.getText().toString().length() >= 29
+        // Get sensor values as strings
+        String lightValueText = lightSensorValue.getText().toString().substring(19);
+        String proximityValueText = proximitySensorValue.getText().toString().substring(24);
+        String accelerometerValueText = accelerometerSensorValue.getText().toString().length() >= 29
                 ? accelerometerSensorValue.getText().toString().substring(29)
                 : "N/A";
-        String gyroscopeValue = gyroscopeSensorValue.getText().toString().length() >= 25
+        String gyroscopeValueText = gyroscopeSensorValue.getText().toString().length() >= 25
                 ? gyroscopeSensorValue.getText().toString().substring(25)
                 : "N/A";
 
-        String[] sensorValues = { lightValue, proximityValue, accelerometerValue, gyroscopeValue };
+        // Parse sensor values to float with error handling
+        float lightValue = 0.0f;
+        float proximityValue = 0.0f;
+        float accelerometerValue = 0.0f;
+        float gyroscopeValue = 0.0f;
+
+        try {
+            if (lightValueText.length() >= 19) {
+                lightValue = Float.parseFloat(lightValueText);
+            }
+
+            if (proximityValueText.length() >= 24) {
+                proximityValue = Float.parseFloat(proximityValueText);
+            }
+
+            if (!accelerometerValueText.equals("N/A")) {
+                accelerometerValue = Float.parseFloat(accelerometerValueText);
+            }
+
+            if (!gyroscopeValueText.equals("N/A")) {
+                gyroscopeValue = Float.parseFloat(gyroscopeValueText);
+            }
+        } catch (NumberFormatException e) {
+            // Handle the parsing error here
+            e.printStackTrace();
+            // Set default values
+            lightValue = 0.0f;
+            proximityValue = 0.0f;
+            accelerometerValue = 0.0f;
+            gyroscopeValue = 0.0f;
+        }
+
+        String[] sensorValues = { String.valueOf(lightValue), String.valueOf(proximityValue),
+                String.valueOf(accelerometerValue), String.valueOf(gyroscopeValue) };
 
         showNotification(sensorValues);
     }
@@ -239,10 +271,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void recordSensorData() {
         // Retrieve sensor values from UI or other sources
-        float lightValue = Float.parseFloat(lightSensorValue.getText().toString().substring(19));
-        float proximityValue = Float.parseFloat(proximitySensorValue.getText().toString().substring(24));
-        float accelerometerValue = Float.parseFloat(accelerometerSensorValue.getText().toString().substring(29));
-        float gyroscopeValue = Float.parseFloat(gyroscopeSensorValue.getText().toString().substring(25));
+        String lightSensorText = lightSensorValue.getText().toString();
+        String proximitySensorText = proximitySensorValue.getText().toString();
+        String accelerometerSensorText = accelerometerSensorValue.getText().toString();
+        String gyroscopeSensorText = gyroscopeSensorValue.getText().toString();
+
+        // Parse float values or assign default values if the text is null or empty
+        float lightValue = parseFloatOrDefault(lightSensorText, 19, 0.0f);
+        float proximityValue = parseFloatOrDefault(proximitySensorText, 24, 0.0f);
+        float accelerometerValue = parseFloatOrDefault(accelerometerSensorText, 29, 0.0f);
+        float gyroscopeValue = parseFloatOrDefault(gyroscopeSensorText, 25, 0.0f);
 
         // Create SensorData objects with timestamp and sensor values
         long timestamp = System.currentTimeMillis();
@@ -257,5 +295,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dbHelper.insertAccelerometerSensorValue(accelerometerSensorData);
         dbHelper.insertGyroscopeSensorValue(gyroscopeSensorData);
     }
+
+    private float parseFloatOrDefault(String value, int startIndex, float defaultValue) {
+        if (value != null && value.length() >= startIndex) {
+            String floatValue = value.substring(startIndex);
+            try {
+                return Float.parseFloat(floatValue);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return defaultValue;
+    }
+
 }
 //...
